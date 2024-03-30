@@ -1,6 +1,6 @@
 # myapp/urls.py
 from django.urls import path
-from .views import register, user_login,home,logout_request,create_blog_post,myallblogs,update_blog,delete_blog
+from .views import register, user_login,home,logout_request,create_blog_post,myallblogs,update_blog,delete_blog,like_blog,remove_like,add_comment,get_comments,delete_comment
 
 urlpatterns = [
     path('register/', register, name='register'),
@@ -11,7 +11,9 @@ urlpatterns = [
     path('myallblogs/', myallblogs, name='myallblogs'),
     path('update_blog/<int:pk>/', update_blog, name='update_blog'),
     path('delete_blog/<int:pk>/', delete_blog, name='delete_blog'),
-
-    # path('delete/<int:pk>/', delete_blog, name='delete_blog'),
-
+    path('like_blog/<int:pk>/', like_blog, name='like_blog'),
+    path('remove_like/<int:pk>/', remove_like, name='remove_like'),
+    path('add_comment/<int:pk>/', add_comment, name='add_comment'),
+    path('get_comments/', get_comments, name='get_comments'),
+    path('delete_comment/<int:blog_id>/<int:comment_id>/', delete_comment, name='delete_comment'),   
 ]

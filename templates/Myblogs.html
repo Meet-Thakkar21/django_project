@@ -57,6 +57,31 @@
         .btn-delete {
             background-color: #dc3545;
         }
+
+        .dropdown-menu {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .dropdown-menu li strong {
+            font-weight: bold;
+            color: #007bff;
+        }
     </style>
 </head>
 <body>
@@ -95,16 +120,62 @@
             <div class="blog-content">{{ blog.BlogData }}</div>
             <div class="blog-info">
                 <p><strong>Date Posted:</strong> {{ blog.DatePosted }}</p>
-                <p><strong>Likes:</strong> {{ blog.Likes }}</p>
+                <p><strong>Likes:</strong> {{ blog.likes_count }}</p>
                 <p><strong>Comments:</strong> {{ blog.Comments }}</p>
                 <p><strong>Category:</strong> <span class="blog-category">{{ blog.CategoryId.CategoryName }}</span></p>
             </div>
             <div>
                 <a href="{% url 'update_blog' blog.pk %}" class="btn btn-update">Update Blog</a>
                 <a href="{% url 'delete_blog' blog.pk %}" class="btn btn-delete">Delete Blog</a>
+                <button class="btn btn-info" type="button" onclick="showComments( {{ blog.pk }} )">Show Comments</button>
+
+                <ul class="dropdown-menu" id="commentDropdown{{ blog.pk }}" style="display: none;">
+    
+                </ul>
             </div>
         </div>
         {% endfor %}
     </div>
+    <script>
+       function showComments(blogId) {
+        console.log("Fetching comments for blog:", blogId);
+        const commentsDropdown = document.getElementById(`commentDropdown${blogId}`);
+
+        if (commentsDropdown.style.display === 'block') {
+            commentsDropdown.style.display = 'none';
+        } else {
+            commentsDropdown.style.display = 'block';
+        }
+
+        if (commentsDropdown.innerHTML.trim() !== '') {
+            return;
+        }
+
+        fetch(`/get_comments/?blog_id=${blogId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Received comments data:", data);
+                if (data.comments && data.comments.length > 0) {
+                    data.comments.forEach(comment => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong>${comment.username}</strong> ${comment.Content}`;
+                        commentsDropdown.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "No comments available";
+                    commentsDropdown.appendChild(li);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching comments:', error);
+            });
+    }
+    </script>
 </body>
 </html>

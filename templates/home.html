@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
+  <style>
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .blog-card {
+      margin-bottom: 20px;
+    }
+    .dropdown-menu {
+  max-height: 200px; /* Set maximum height for the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds the max height */
+  padding: 10px; /* Add some padding around comments */
+}
+
+/* Style for individual comments */
+.dropdown-menu li {
+  list-style: none; /* Remove default list styles */
+  margin-bottom: 10px; /* Add margin between comments */
+  border-bottom: 1px solid #ccc; /* Add border bottom to separate comments */
+  padding-bottom: 10px; /* Add padding bottom for spacing */
+}
+
+/* Style for comment username */
+.dropdown-menu li strong {
+  font-weight: bold; /* Make the username text bold */
+  color: #007bff; /* Set username color */
+}
+
+/* Style for comment content */
+.dropdown-menu li span {
+  color: #333; /* Set content color */
+}
+  </style>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Blog</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -24,47 +63,154 @@
             <a class="nav-link" href="/create">Create</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/myallblogs" role="button"aria-expanded="false">
+            <a class="nav-link" href="/myallblogs" role="button" aria-expanded="false">
               MyBlogs
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}" role="button" aria-expanded="false">
+              Logout
+            </a>
+          </li>
+          <!-- <li class="nav-item">
+             <a href="{% url 'logout' %}" class="btn btn-outline-danger logout-btn">Logout</a>
+            </li> -->
         </ul>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
+
         </form>
+
       </div>
+
     </div>
+
   </nav>
 
-  
-  <h2>hello {{ name.username }}</h2>
 
-  <table border="1">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>user</th>
-            <th>Date Posted</th>
-            <th>Likes</th>
-            <th>Comments</th>
-            <th>Category</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for blog in blogs %}
-        <tr>
-            <td>{{ blog.Title }}</td>
-            <td>{{ blog.UserID.username}}</td>
-            <td>{{ blog.DatePosted }}</td>
-            <td>{{ blog.Likes }}</td>
-            <td>{{ blog.Comments }}</td>
-            <td>{{ blog.CategoryId.CategoryName }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 
-  <a href="{% url 'logout' %}">logout</a>
-</body>
+  <center>
+    <h2>Welcom {{ name.username }}</h2>
+  </center><br><br>
+
+  <center>
+    <h2>Here are some blogs posted by Bloggers</h2>
+  </center>
+  <div class="container mt-4">
+    <div class="row">
+      {% for blog in blogs %}
+      <div class="col-lg-4">
+        <div class="card blog-card">
+          <div class="card-body">
+            <h5 class="card-title">{{ blog.Title }}</h5>
+            <p class="card-text">{{ blog.BlogData }}</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">User: {{ blog.UserID.username }}</li>
+            <li class="list-group-item">Date Posted: {{ blog.DatePosted }}</li>
+            <li class="list-group-item"><i class="fa-solid fa-heart"></i> : {{ blog.Likes }} </li>
+            <li class="list-group-item"><i class="fa-solid fa-comment"></i>: {{ blog.Comments }}</li>
+            <li class="list-group-item">Category: {{ blog.CategoryId.CategoryName }}</li>
+          </ul>
+          <div class="card-footer">
+            {% if user_has_liked_blog_ids and blog.pk in user_has_liked_blog_ids %}
+            <a href="{% url 'remove_like' blog.pk %}" class="btn btn-danger">Remove Like <i class="fa-solid fa-heart"></i></a>
+            {% else %}
+            <a href="{% url 'like_blog' blog.pk %}" class="btn btn-primary">Like <i class="fa-regular fa-heart"></i></a>
+            {% endif %}
+
+            <form action="{% url 'add_comment' blog.pk %}" method="post">
+              {% csrf_token %}
+              <textarea name="content" id="content" rows="3" class="form-control" placeholder="Add a comment"
+                required></textarea>
+              <button type="submit" class="btn btn-info mt-2">Add Comment</button>
+            </form>
+            <br><br><br>
+          <button class="btn btn-info" type="button" onclick="showComments( {{ blog.pk }} )">Show Comments</button>
+
+            <ul class="dropdown-menu" id="commentDropdown{{ blog.pk }}" style="display: none;">
+
+            </ul> 
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+    <script>
+       function showComments(blogId) {
+        console.log("Fetching comments for blog:", blogId);
+        const commentsDropdown = document.getElementById(`commentDropdown${blogId}`);
+
+        if (commentsDropdown.style.display === 'block') {
+            commentsDropdown.style.display = 'none';
+        } else {
+            commentsDropdown.style.display = 'block';
+        }
+
+        if (commentsDropdown.innerHTML.trim() !== '') {
+            return;
+        }
+
+        fetch(`/get_comments/?blog_id=${blogId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Received comments data:", data);
+                if (data.comments && data.comments.length > 0) {
+                    data.comments.forEach(comment => {
+                        const li = document.createElement('li');
+                        let html = `<strong>${comment.username}</strong> ${comment.Content}`;
+                        
+                        if (comment.username === '{{ name.username }}') {
+                            html += ` <i class="fas fa-trash-alt" onclick="deleteComment(${blogId}, '${comment.commentId}')"></i>`;
+                        }
+                        li.innerHTML = html;
+                        li.id = `comment${comment.commentId}`;
+                        commentsDropdown.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = "No comments available";
+                    commentsDropdown.appendChild(li);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching comments:', error);
+            });
+    }
+
+
+    function deleteComment(blogId, commentId) {
+      console.log(`Deleting comment ${commentId} for blog ${blogId}`);
+
+      fetch(`/delete_comment/${blogId}/${commentId}/`, {
+          method: 'GET',
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Failed to delete comment');
+          }
+          const commentElement = document.getElementById(`comment${commentId}`);
+          if (commentElement) {
+              commentElement.remove();
+          }
+      })
+      .catch(error => {
+          console.error('Error deleting comment:', error);
+      });
+    }
+ </script></body>
+
 </html>
