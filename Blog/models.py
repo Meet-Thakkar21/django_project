@@ -15,15 +15,7 @@ class History(models.Model):
   History = models.CharField(max_length=500)
   UserID = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
-class Blogger(models.Model):
-  BloggerId = models.IntegerField(primary_key = True)
-  Bio = models.CharField(max_length=1000)
-  UserID = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
-class Reader(models.Model):
-  ReaderId = models.IntegerField(primary_key = True)
-  Interest = models.CharField(max_length=1000)
-  UserID = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
 class Category(models.Model):
   CategoryId = models.IntegerField(primary_key = True)

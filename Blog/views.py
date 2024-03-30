@@ -194,3 +194,10 @@ def delete_comment(request, blog_id, comment_id):
             return JsonResponse({'error': 'Comment does not exist'}, status=404)
    else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+   
+
+def user_profile(request):
+  username = request.session.get('username')
+  email = request.session.get('email')
+  first_name = request.session.get('first_name')
+  return render(request, 'profile.html', {'username': username, 'email': email, 'first_name': first_name})

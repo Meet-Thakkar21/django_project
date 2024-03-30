@@ -75,6 +75,9 @@
           <!-- <li class="nav-item">
              <a href="{% url 'logout' %}" class="btn btn-outline-danger logout-btn">Logout</a>
             </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_profile' %}">User Profile</a>
+          </li>
         </ul>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -171,7 +174,7 @@
                 if (data.comments && data.comments.length > 0) {
                     data.comments.forEach(comment => {
                         const li = document.createElement('li');
-                        let html = `<strong>${comment.username}</strong> ${comment.Content}`;
+                        let html = `<strong>${comment.username}: </strong> ${comment.Content}`;
                         
                         if (comment.username === '{{ name.username }}') {
                             html += ` <i class="fas fa-trash-alt" onclick="deleteComment(${blogId}, '${comment.commentId}')"></i>`;
