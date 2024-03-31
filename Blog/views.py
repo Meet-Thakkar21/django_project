@@ -1,8 +1,8 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render,redirect
-from .forms import UserRegistrationForm
+from django.shortcuts import render,redirect,get_object_or_404
+from .forms import UserRegistrationForm,CommunityForm
 from django.contrib.auth import authenticate,login,logout
-from .models import BlogPost,User,Category,Like,Comment
+from .models import BlogPost,User,Category,Like,Comment,Community,UserCommunity
 from datetime import datetime
 from django.db.models import Count
 
@@ -201,3 +201,66 @@ def user_profile(request):
   email = request.session.get('email')
   first_name = request.session.get('first_name')
   return render(request, 'profile.html', {'username': username, 'email': email, 'first_name': first_name})
+
+def create_community(request):
+    creator  = request.user
+    if request.method == 'POST':
+        form = CommunityForm(request.POST)
+        if form.is_valid():
+            
+            print(creator)
+            community = Community.objects.create(
+              CommunityName = request.POST['CommunityName'],
+              Description = request.POST['Description'],
+              CreatorId = creator
+            )
+            
+            return redirect("/home")  
+    else:
+        form = CommunityForm()
+    communities = Community.objects.filter(CreatorId = creator)
+    return render(request, 'create_community.html', {'form': form, 'communities' :communities} )
+
+def join_community(request):
+  communities = Community.objects.exclude(usercommunity__UserID=request.user)
+  joined_communities = UserCommunity.objects.filter(UserID=request.user)
+  
+  return render(request, 'join_communities.html', {'communities': communities, 'joined_communities': joined_communities})
+ 
+
+def user_community(request , pk):
+   community = Community.objects.get(CommunityId = pk)
+   user = request.user
+   user_community = UserCommunity.objects.create(
+      UserID = user,
+      CommunityID = community
+   )
+   community.NumberOfMembers += 1
+   community.save()
+   
+   return redirect( '/join_community')
+
+def leave_community(request , pk):
+  community = Community.objects.get(CommunityId = pk)
+  user = request.user
+  user_community = get_object_or_404(UserCommunity, UserID=user, CommunityID=community)
+  user_community.delete()
+  community.NumberOfMembers = community.NumberOfMembers-1
+  community.save()
+  return redirect("/join_community")
+
+def show_content(request,pk):
+  user = User.objects.get(pk = pk)
+  blogs=BlogPost.objects.all()
+  all_blogs = BlogPost.objects.filter(UserID=user)
+  return render(request,'show_content.html',{'all_blogs' :all_blogs})
+
+def delete_community(request,pk):
+  community = get_object_or_404(Community, pk=pk)
+    
+  user_communities = UserCommunity.objects.filter(CommunityID=pk)
+  user_communities.delete()
+    
+  community.delete()
+    
+  return redirect('/create_community')  

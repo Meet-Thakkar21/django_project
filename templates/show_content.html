@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content of community</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* Card container */
+    .card {
+      border-radius: 10px;
+      margin: 20px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      background-color: #fff;
+      width: calc(100% - 40px); /* 100% width minus 40px margin on each side */
+      max-width: 600px; /* Max width to maintain readability */
+    }
+
+    /* Card hover effect */
+    .card:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Blog Title */
+    .blog-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    /* Blog Content */
+    .blog-content {
+      margin-bottom: 15px;
+      color: #666;
+    }
+
+    /* Blog Meta */
+    .blog-meta {
+      font-size: 16px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Blog</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/create">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/myallblogs" role="button" aria-expanded="false">
+              MyBlogs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/create_community" role="button" aria-expanded="false">
+              CreateCommunity
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/join_community" role="button" aria-expanded="false">
+              JoinCommunity
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}" role="button" aria-expanded="false">
+              Logout
+            </a>
+          </li>
+          <!-- <li class="nav-item">
+             <a href="{% url 'logout' %}" class="btn btn-outline-danger logout-btn">Logout</a>
+            </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_profile' %}">User Profile</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <div class="container">
+    <h1 class="text-center my-4">All Blogs</h1>
+    {% for blog in all_blogs %}
+    <div class="card">
+      <div class="blog-title">{{ blog.Title }}</div>
+      <div class="blog-content">{{ blog.BlogData }}</div>
+      <div class="blog-meta">
+        <span>Likes: {{ blog.Likes }}</span> |
+        <span>Comments: {{ blog.Comments }}</span> |
+        <span>Posted by: {{ blog.UserID.username }}</span> |
+        <span>Category: {{ blog.CategoryId }}</span> |
+        <span>Date Posted: {{ blog.DatePosted }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

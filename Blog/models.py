@@ -49,7 +49,9 @@ class Community(models.Model):
   CommunityId = models.IntegerField(primary_key = True)
   CommunityName = models.CharField(max_length=50)
   Description = models.CharField(max_length=500)
-  NumberOfMembers = models.IntegerField()
+  NumberOfMembers = models.IntegerField(default = 0)
+  CreatorId = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
 
 class UserCommunity(models.Model):
   JoinId = models.IntegerField(primary_key = True)
