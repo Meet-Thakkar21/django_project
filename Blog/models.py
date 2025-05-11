@@ -10,10 +10,6 @@ from django.contrib.auth.models import User,Group, Permission
   
   
 
-class History(models.Model):
-  HistoryId = models.IntegerField(primary_key = True)
-  History = models.CharField(max_length=500)
-  UserID = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
 
 

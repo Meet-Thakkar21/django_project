@@ -1,0 +1,96 @@
+/* Create Blog Page Specific Styles */
+.create-blog-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  background-color: white;
+}
+
+.create-blog-form label {
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.create-blog-form .form-control,
+.create-blog-form .form-select {
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid var(--gray-medium);
+  transition: all 0.3s ease;
+}
+
+.create-blog-form .form-control:focus,
+.create-blog-form .form-select:focus {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  border-color: var(--primary);
+}
+
+.create-blog-form textarea.form-control {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.create-blog-form .btn-primary {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.create-blog-form .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+/* Field Focus Animation */
+.create-blog-form .form-control:focus,
+.create-blog-form .form-select:focus {
+  transform: translateY(-2px);
+}
+
+/* Placeholder styling */
+.create-blog-form ::placeholder {
+  color: var(--gray-dark);
+  opacity: 0.7;
+}
+
+/* Form field spacing */
+.create-blog-form .mb-4 {
+  margin-bottom: 1.8rem !important;
+}
+
+/* Category select styling */
+.create-blog-form .form-select {
+  background-color: white;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+/* Card title styling */
+.create-blog-card .card-title {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .create-blog-card {
+    padding: 15px;
+    margin-top: 20px;
+  }
+  
+  .create-blog-form .btn-primary {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}

@@ -13,7 +13,7 @@ def register(request):
     form = UserRegistrationForm(request.POST)
     if form.is_valid():
       form.save()
-      return redirect("/login")
+      return redirect("/")
   else:
     form = UserRegistrationForm()
   return render(request,"signup.html", {'form':form})
@@ -35,10 +35,13 @@ def user_login(request):
             }
             return redirect('/home')
         else: 
-            return HttpResponse ("Username or Password is incorrect!!!")
+            return HttpResponse("Username or Password is incorrect!!!")
     else:
-      return render (request,'login.html')
-
+        response = render(request, 'login.html')
+        # Explicitly set content type
+        response['Content-Type'] = 'text/html; charset=utf-8'
+        return response
+    
 def home(request):
   name={'username': request.session.get('username')}
   blogs=BlogPost.objects.all()
@@ -64,9 +67,8 @@ def home(request):
 def logout_request(request):
   logout(request)
   request.session.flush()
-  return redirect('/login')
+  return redirect('/')
 
-from datetime import datetime 
 
 def create_blog_post(request):
     if request.method == 'POST':
@@ -224,7 +226,6 @@ def create_community(request):
 def join_community(request):
   communities = Community.objects.exclude(usercommunity__UserID=request.user)
   joined_communities = UserCommunity.objects.filter(UserID=request.user)
-  
   return render(request, 'join_communities.html', {'communities': communities, 'joined_communities': joined_communities})
  
 

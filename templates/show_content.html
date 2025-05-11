@@ -90,11 +90,7 @@
             <a class="nav-link" href="{% url 'user_profile' %}">User Profile</a>
           </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-
+       
       </div>
 
     </div>
@@ -112,7 +108,6 @@
         <span>Likes: {{ blog.Likes }}</span> |
         <span>Comments: {{ blog.Comments }}</span> |
         <span>Posted by: {{ blog.UserID.username }}</span> |
-        <span>Category: {{ blog.CategoryId }}</span> |
         <span>Date Posted: {{ blog.DatePosted }}</span>
       </div>
     </div>

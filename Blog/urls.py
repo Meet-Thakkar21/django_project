@@ -4,7 +4,7 @@ from .views import register, user_login,home,logout_request,create_blog_post,mya
 
 urlpatterns = [
     path('register/', register, name='register'),
-    path('login/', user_login, name='login'),
+    path('', user_login, name='login'),
     path('home/', home, name='home'),
     path("logout/", logout_request, name="logout"),
     path('create/', create_blog_post, name='create_blog_post'),

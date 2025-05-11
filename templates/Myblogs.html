@@ -1,181 +1,180 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blogs</title>
+    <title>BlogNest - My Blogs</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <style>
-        .blog-card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-
-        .blog-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .blog-content {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .blog-info {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .blog-category {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            margin-right: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .btn-update {
-            background-color: #28a745;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-        }
-
-        .dropdown-menu {
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 10px;
-            display: none;
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .dropdown-menu li {
-            list-style: none;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-        }
-
-        .dropdown-menu li strong {
-            font-weight: bold;
-            color: #007bff;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Blog</a>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">Blog<span>Nest</span></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+            <a class="nav-link" href="/home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/create">Create</a>
+            <a class="nav-link" href="/create">Create Post</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/myallblogs" role="button"aria-expanded="false">
-              MyBlogs
-            </a>
+            <a class="nav-link active" aria-current="page" href="/myallblogs">My Blogs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/create_community">Create Community</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/join_community">Join Community</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_profile' %}">My Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>
-    <center> <h1>My Blogs</h1></center>
-    <div class="blog-list">
-        {% for blog in my_blogs %}
-        <div class="blog-card">
-            <div class="blog-title">{{ blog.Title }}</div>
-            <div class="blog-content">{{ blog.BlogData }}</div>
-            <div class="blog-info">
-                <p><strong>Date Posted:</strong> {{ blog.DatePosted }}</p>
-                <p><strong>Likes:</strong> {{ blog.likes_count }}</p>
-                <p><strong>Comments:</strong> {{ blog.Comments }}</p>
-                <p><strong>Category:</strong> <span class="blog-category">{{ blog.CategoryId.CategoryName }}</span></p>
-            </div>
-            <div>
-                <a href="{% url 'update_blog' blog.pk %}" class="btn btn-update">Update Blog</a>
-                <a href="{% url 'delete_blog' blog.pk %}" class="btn btn-delete">Delete Blog</a>
-                <button class="btn btn-info" type="button" onclick="showComments( {{ blog.pk }} )">Show Comments</button>
 
-                <ul class="dropdown-menu" id="commentDropdown{{ blog.pk }}" style="display: none;">
-    
-                </ul>
-            </div>
-        </div>
-        {% endfor %}
+  <div class="container">
+    <div class="welcome-banner">
+      <div class="container">
+        <h2><i class="fas fa-book-open"></i> My Blog Collection</h2>
+      </div>
     </div>
-    <script>
-       function showComments(blogId) {
-        console.log("Fetching comments for blog:", blogId);
-        const commentsDropdown = document.getElementById(`commentDropdown${blogId}`);
 
-        if (commentsDropdown.style.display === 'block') {
-            commentsDropdown.style.display = 'none';
-        } else {
-            commentsDropdown.style.display = 'block';
-        }
+    <div class="row">
+      {% for blog in my_blogs %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card blog-card">
+          <div class="card-body">
+            <h5 class="card-title">{{ blog.Title }}</h5>
+            <p class="card-text">{{ blog.BlogData }}</p>
+            <span class="blog-category">{{ blog.CategoryId.CategoryName }}</span>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item blog-meta-item">
+              <i class="far fa-calendar-alt"></i>
+              <span>Posted on: {{ blog.DatePosted }}</span>
+            </li>
+            <li class="list-group-item blog-meta-item">
+              <i class="fas fa-heart"></i>
+              <span>{{ blog.likes_count }} likes</span>
+            </li>
+            <li class="list-group-item blog-meta-item">
+              <i class="fas fa-comment"></i>
+              <span>{{ blog.Comments }} comments</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <div class="d-grid gap-2 mb-3">
+              <a href="{% url 'update_blog' blog.pk %}" class="btn btn-success">
+                <i class="fas fa-edit"></i> Edit Blog
+              </a>
+              <a href="{% url 'delete_blog' blog.pk %}" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Delete Blog
+              </a>
+            </div>
+            
+            <button class="btn btn-outline-secondary w-100" type="button" onclick="showComments({{ blog.pk }})">
+              <i class="fas fa-comments"></i> Show Comments
+            </button>
+            
+            <ul class="dropdown-menu" id="commentDropdown{{ blog.pk }}" style="display: none;">
+              <!-- Comments will be loaded here -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 
-        if (commentsDropdown.innerHTML.trim() !== '') {
-            return;
-        }
+  <footer class="mt-5 py-4 bg-white">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 BlogNest. All rights reserved.</p>
+    </div>
+  </footer>
 
-        fetch(`/get_comments/?blog_id=${blogId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Received comments data:", data);
-                if (data.comments && data.comments.length > 0) {
-                    data.comments.forEach(comment => {
-                        const li = document.createElement('li');
-                        li.innerHTML = `<strong>${comment.username}</strong> ${comment.Content}`;
-                        commentsDropdown.appendChild(li);
-                    });
-                } else {
-                    const li = document.createElement('li');
-                    li.textContent = "No comments available";
-                    commentsDropdown.appendChild(li);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching comments:', error);
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script>
+    function showComments(blogId) {
+      console.log("Fetching comments for blog:", blogId);
+      const commentsDropdown = document.getElementById(`commentDropdown${blogId}`);
+
+      if (commentsDropdown.style.display === 'block') {
+        commentsDropdown.style.display = 'none';
+      } else {
+        commentsDropdown.style.display = 'block';
+      }
+
+      if (commentsDropdown.innerHTML.trim() !== '') {
+        return;
+      }
+
+      fetch(`/get_comments/?blog_id=${blogId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("Received comments data:", data);
+          if (data.comments && data.comments.length > 0) {
+            data.comments.forEach(comment => {
+              const li = document.createElement('li');
+              let html = `<strong>${comment.username}: </strong> <span>${comment.Content}</span>`;
+              
+              if (comment.username === '{{ request.user.username }}') {
+                html += `<div class="comment-actions">
+                          <i class="fas fa-trash-alt" onclick="deleteComment(${blogId}, '${comment.commentId}')"></i>
+                        </div>`;
+              }
+              li.innerHTML = html;
+              li.id = `comment${comment.commentId}`;
+              commentsDropdown.appendChild(li);
             });
+          } else {
+            const li = document.createElement('li');
+            li.textContent = "No comments available";
+            commentsDropdown.appendChild(li);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching comments:', error);
+          const li = document.createElement('li');
+          li.textContent = "Error loading comments. Please try again.";
+          commentsDropdown.appendChild(li);
+        });
     }
-    </script>
+
+    function deleteComment(blogId, commentId) {
+      fetch(`/delete_comment/${blogId}/${commentId}/`, {
+        method: 'GET',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to delete comment');
+          }
+          const commentElement = document.getElementById(`comment${commentId}`);
+          if (commentElement) {
+            commentElement.remove();
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting comment:', error);
+        });
+    }
+  </script>
 </body>
 </html>
