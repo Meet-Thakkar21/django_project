@@ -1,0 +1,235 @@
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-header h1 {
+    color: var(--text-dark);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.page-header p {
+    color: var(--gray-dark);
+    font-size: 1.1rem;
+}
+
+.create-community-form {
+    max-width: 600px;
+    margin: 0 auto 60px;
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.create-community-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.create-community-form label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.create-community-form input,
+.create-community-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--gray-medium);
+    border-radius: var(--radius-sm);
+    font-family: 'Poppins', sans-serif;
+    transition: all var(--transition-normal);
+}
+
+.create-community-form input:focus,
+.create-community-form textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.communities-section {
+    margin-bottom: 60px;
+}
+
+.communities-section h2 {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.communities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.community-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+.community-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.community-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.community-header h3 {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.member-count {
+    background: var(--gray-light);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--gray-dark);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.community-description {
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.community-meta {
+    margin-bottom: 20px;
+}
+
+.creator {
+    color: var(--gray-dark);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.community-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.community-actions form {
+    flex: 1;
+}
+
+.community-actions .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* Content page specific styles */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.content-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+.content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.content-header h2 {
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.content-meta {
+    display: flex;
+    gap: 15px;
+    color: var(--gray-dark);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.content-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.content-body {
+    color: var(--text-dark);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.content-footer {
+    display: flex;
+    gap: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-medium);
+}
+
+.interaction-item {
+    color: var(--gray-dark);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+@media (max-width: 768px) {
+    .communities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .community-actions {
+        flex-direction: column;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-community-form {
+        padding: 20px;
+    }
+    
+    .community-card {
+        padding: 20px;
+    }
+    
+    .community-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

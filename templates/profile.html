@@ -1,124 +1,120 @@
-<!-- profile.html -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlogNest - My Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            margin-top: 0;
-            color: #333;
-        }
-
-        p {
-            margin-bottom: 10px;
-            color: #666;
-        }
-
-        .debugging {
-            color: #999;
-            font-style: italic;
-        }
-
-        .logout-link {
-            display: block;
-            margin-top: 20px;
-            color: #fff;
-            background-color: #007bff;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .logout-link:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="{% static 'css/home.css' %}" rel="stylesheet">
+  <link href="{% static 'css/profile.css' %}" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Blog</a>
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="/home">
+        <i class="fas fa-feather-alt brand-icon"></i>Blog<span>Nest</span>
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+            <a class="nav-link" href="/home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/create">Create</a>
+            <a class="nav-link" href="/create">Create Post</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/myallblogs" role="button" aria-expanded="false">
-              MyBlogs
-            </a>
+            <a class="nav-link" href="/myallblogs">My Blogs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/create_community" role="button" aria-expanded="false">
-              CreateCommunity
-            </a>
+            <a class="nav-link" href="/create_community">Create Community</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/join_community" role="button" aria-expanded="false">
-              JoinCommunity
-            </a>
+            <a class="nav-link" href="/join_community">Join Community</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}" role="button" aria-expanded="false">
-              Logout
-            </a>
+            <a class="nav-link active" href="{% url 'user_profile' %}">My Profile</a>
           </li>
-          <!-- <li class="nav-item">
-             <a href="{% url 'logout' %}" class="btn btn-outline-danger logout-btn">Logout</a>
-            </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'user_profile' %}">User Profile</a>
+            <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
           </li>
         </ul>
-        
-
       </div>
-
     </div>
-
   </nav>
 
-
-    <div class="container">
-        <h1>User Profile</h1>
-        <p><strong>Username:</strong> {{ username }}</p>
-        <p><strong>Email:</strong> {{ email }}</p>
-        <p><strong>First Name:</strong> {{ first_name }}</p>
-
-        
-        <p class="debugging">{% if username and email and first_name %}{% else %}Session data missing{% endif %}</p>
-
-        <a class="logout-link" href="{% url 'logout' %}">Logout</a>
+  <div class="container main-container">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <h1>{{ username }}'s Profile</h1>
     </div>
+
+    <div class="profile-card">
+      <div class="profile-info">
+        <div class="info-group">
+          <label><i class="fas fa-user"></i> Username</label>
+          <p>{{ username }}</p>
+        </div>
+        
+        <div class="info-group">
+          <label><i class="fas fa-envelope"></i> Email</label>
+          <p>{{ email }}</p>
+        </div>
+        
+        <div class="info-group">
+          <label><i class="fas fa-id-card"></i> First Name</label>
+          <p>{{ first_name }}</p>
+        </div>
+        
+        <div class="info-group">
+          <label><i class="fas fa-calendar-alt"></i> Member Since</label>
+          <p>January 2025</p>
+        </div>
+      </div>
+      
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-number">12</span>
+          <span class="stat-label">Posts</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">48</span>
+          <span class="stat-label">Comments</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">142</span>
+          <span class="stat-label">Likes</span>
+        </div>
+      </div>
+      
+      <div class="profile-actions">
+        <a href="#" class="btn btn-primary">
+          <i class="fas fa-edit"></i> Edit Profile
+        </a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 BlogNest. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
 </body>
 </html>

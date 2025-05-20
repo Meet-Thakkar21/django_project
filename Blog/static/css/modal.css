@@ -1,0 +1,81 @@
+.modal-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    padding: 20px;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    animation: modalSlideIn 0.3s ease;
+}
+
+.modal-icon {
+    font-size: 48px;
+    color: var(--danger);
+    margin-bottom: 20px;
+}
+
+.modal-content h1 {
+    color: var(--text-dark);
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.modal-subtitle {
+    color: var(--gray-dark);
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-actions form {
+    display: flex;
+    gap: 15px;
+}
+
+.modal-actions .btn {
+    min-width: 120px;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 30px 20px;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-actions form {
+        flex-direction: column;
+    }
+    
+    .modal-actions .btn {
+        width: 100%;
+    }
+}
